@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Quản lý bài viết</title>
+    <link rel="stylesheet" th:href="@{/static/css/nav.css}">
+    <link rel="stylesheet" th:href="@{/static/css/footer.css}">
+    <link rel="stylesheet" th:href="@{/static/css/danhmuc.css}">
+</head>
+<body>
+    <div th:replace="~{Giaodien/Nav :: nav}"></div>
+
+    <main>
+        <div class="admin-container">
+            <h2>Quản lý bài viết</h2>
+
+            <form th:action="@{/admin/baiviet}" method="post" th:object="${baiViet}">
+                <input type="hidden" th:field="*{maBaiViet}">
+                <input type="hidden" name="hinhAnhBase64" id="hinhAnhBase64">
+
+                <div class="mb-3">
+                    <label>Tiêu đề</label>
+                    <input type="text" th:field="*{tieuDe}" required class="form-control">
+                </div>
+
+                <div class="mb-3">
+                    <label>Tóm tắt</label>
+                    <textarea th:field="*{tomTat}" class="form-control"></textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label>Nội dung</label>
+                    <textarea th:field="*{noiDung}" required class="form-control"></textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label>Ảnh bài viết</label>
+                    <input type="file" id="imageUpload" accept="image/*" class="form-control">
+                    <div th:if="*{hinhAnh}">
+                        <img th:src="*{hinhAnh}" alt="Ảnh hiện tại" width="100">
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label>Danh mục</label>
+                    <select name="danhMuc" class="form-control" required>
+    <option th:each="dm : ${danhMucs}" th:value="${dm.maDanhMuc}" th:text="${dm.tenDanhMuc}"></option>
+</select>
+
+                </div>
+
+                <div class="mb-3">
+                    <label>Nguồn tin</label>
+                    <select th:field="*{nguonTin}" class="form-control">
+                        <option th:each="nt : ${nguonTins}"
+                                th:value="${nt}"
+                                th:text="${nt.tenNguonTin}"></option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label>Trạng thái</label>
+                    <select th:field="*{trangThai}" class="form-control">
+                        <option value="Nháp">Nháp</option>
+                        <option value="Công khai">Công khai</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Lưu bài viết</button>
+            </form>
+            
+        </div>
+        <table>
+    <thead>
+        <tr>
+            <th>Tiêu đề</th>
+            <th>Danh mục</th>
+            <th>Ngày đăng</th>
+            <th>Hành động</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tbody>
+  <tr th:each="bv : ${listBaiViet}">
+    <td th:text="${bv.maBaiViet}"></td>
+    <td th:text="${bv.tieuDe}"></td>
+    <td th:text="${bv.danhMuc.tenDanhMuc}"></td>
+    <td th:text="${bv.ngayDang}"></td>
+    <td>
+      <img th:if="${bv.hinhAnh != null}" th:src="'data:image/jpeg;base64,' + ${bv.hinhAnh}" style="width: 100px;" />
+    </td>
+  </tr>
+</tbody>
+
+    </tbody>
+</table>
+        
+    </main>
+
+    <script>
+        document.getElementById('imageUpload').addEventListener('change', function () {
+            const file = this.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function () {
+                    document.getElementById('hinhAnhBase64').value = reader.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
+
+    <div th:replace="~{Giaodien/Foter :: footer}"></div>
+</body>
+</html>

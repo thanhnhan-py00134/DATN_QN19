@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Quản lý người dùng</title>
+</head>
+<body>
+    <h2>Quản lý người dùng</h2>
+
+    <form th:action="@{/admin/nguoidung}" method="post" th:object="${nguoiDung}">
+        <div>
+            <label>Tên đăng nhập</label>
+            <input type="text" th:field="*{tenDangNhap}" required>
+        </div>
+
+        <div>
+            <label>Email</label>
+            <input type="email" th:field="*{email}" required>
+        </div>
+
+        <div>
+            <label>Mật khẩu</label>
+            <input type="password" th:field="*{matKhau}" required>
+        </div>
+
+        <div>
+            <label>Vai trò</label>
+            <select th:field="*{vaiTro}">
+                <option value="user">User</option>
+                <option value="admin">Admin</option>
+            </select>
+        </div>
+
+        <div>
+            <label>Phương thức đăng nhập</label>
+            <input type="text" th:field="*{phuongThucDangNhap}" value="local">
+        </div>
+
+        <div>
+            <label>Mã phương thức</label>
+            <input type="text" th:field="*{maPhuongThuc}">
+        </div>
+
+        <div>
+            <label>Xác thực Email</label>
+            <input type="checkbox" th:field="*{xacThucEmail}">
+        </div>
+
+        <button type="submit">Lưu</button>
+    </form>
+</body>
+</html>

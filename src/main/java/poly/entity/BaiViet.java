@@ -16,8 +16,6 @@ public class BaiViet {
     @Column(name = "TieuDe", nullable = false)
     private String tieuDe;
     
-    @Column(name = "DuongDan", nullable = false, unique = true)
-    private String duongDan;
     
     @Column(name = "TomTat", length = 500)
     private String tomTat;
